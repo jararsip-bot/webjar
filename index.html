@@ -291,7 +291,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(255, 253, 240, 0.78);
+            background: rgba(255, 245, 220, 0.65);
             z-index: 1;
             transition: background 0.3s ease;
         }
@@ -475,7 +475,7 @@
         <!-- CUSTOM HERO BACKGROUND IMAGE & RESPONSIVE PICTURE -->
         <picture class="absolute inset-0 w-full h-full pointer-events-none z-0">
             <source id="hero-bg-source-mobile" media="(max-width: 767px)" srcset="">
-            <img id="hero-bg-img" src="" alt="Hero Background" class="hero-background">
+            <img id="hero-bg-img" src="/images/background.jpg" alt="Hero Background" class="hero-background">
         </picture>
         
         <!-- OVERLAY TERPISAH DENGAN POLA DOTS NEO-BRUTALISM -->
@@ -556,7 +556,7 @@
                     <!-- Interactive Hint Sticker -->
                     <div class="absolute bottom-2 bg-black text-nb-yellow border-3 border-black px-4 py-1.5 font-heading font-black text-xs uppercase shadow-brutal transform -rotate-2 pointer-events-none z-10 flex items-center gap-2">
                         <i class="fa-solid fa-hand-pointer animate-bounce text-nb-red"></i>
-                        <span>baek hati dan suka menolong</span>
+                        <span>TARIK & GOYANGKAN LANYARD ID CARD!</span>
                     </div>
                 </div>
 
@@ -1182,21 +1182,26 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ==========================================
-        // CONFIG: HERO BACKGROUND IMAGE
-        // Ganti path / URL gambar di bawah ini untuk mengganti background Hero Section:
-        // ==========================================
-        const HERO_BACKGROUND_DESKTOP = "saiya.mp4"; // Path/URL Foto Desktop (misal: "images/background.jpg")
-        const HERO_BACKGROUND_MOBILE  = ""; // Path khusus mobile (opsional, jika kosong akan otomatis menggunakan foto desktop)
+        // =========================================================
+        // ⚙️ KONFIGURASI FOTO & BACKGROUND (SETTING IMG.SRC DI SINI)
+        // =========================================================
+        // 1. FOTO BACKGROUND HERO
+        const HERO_BACKGROUND = "saiya.mp4"; // Isikan nama file / link foto background Anda
+        const HERO_BACKGROUND_MOBILE = ""; // Opsional: Foto background khusus HP
+
+        // 2. FOTO PROFIL ID CARD 3D LANYARD
+        const LANYARD_PHOTO = "fajarpp.jpg"; // Ganti dengan nama file foto Anda (misal: "foto-fajar.jpg" atau URL link foto)
+        const LANYARD_PHOTO_FALLBACK = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80"; // Foto cadangan otomatis jika foto-fajar.jpg belum ditemukan
 
         function initHeroBackground() {
             const imgEl = document.getElementById('hero-bg-img');
             const sourceMobile = document.getElementById('hero-bg-source-mobile');
             if (imgEl) {
-                imgEl.src = HERO_BACKGROUND_DESKTOP;
+                // MENGATUR IMG.SRC BACKGROUND HERO
+                imgEl.src = HERO_BACKGROUND;
             }
             if (sourceMobile) {
-                sourceMobile.srcset = HERO_BACKGROUND_MOBILE || HERO_BACKGROUND_DESKTOP;
+                sourceMobile.srcset = HERO_BACKGROUND_MOBILE || HERO_BACKGROUND;
             }
         }
 
@@ -1774,8 +1779,15 @@
                     ctx.strokeRect(80, 220, 540, 420);
                     cardTexture.needsUpdate = true;
                 };
-                // Ganti baris di bawah ini dengan nama file foto Anda (misal: 'foto-fajar.jpg') atau link URL foto Anda
-                img.src = 'fajarpp.jpg';
+                
+                // PENANGANAN JIKA FOTO TIDAK DITEMUKAN / BELUM DI-UPLOAD
+                img.onerror = () => {
+                    img.onerror = null;
+                    img.src = LANYARD_PHOTO_FALLBACK; // Gunakan foto cadangan agar Lanyard tetap tampil bagus
+                };
+
+                // MENGATUR IMG.SRC FOTO LANYARD ID CARD 3D
+                img.src = LANYARD_PHOTO;
 
                 // Name Title
                 ctx.fillStyle = '#121212';
