@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fajar Hibatullah — Neo-Brutalist TKJ & IT Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans & Dancing Script (Latin Cursive) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Plus+Jakarta+Sans:ital,wght@0,500;0,700;0,800;1,700&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D Lanyard Component -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                        latin: ['Dancing Script', 'Pacifico', 'cursive'],
+                    },
+                    colors: {
+                        nb: {
+                            red: '#FF1E27',
+                            darkred: '#CC0000',
+                            lightred: '#FFF0F0',
+                            yellow: '#FFD166',
+                            gold: '#FACC15',
+                            cyan: '#38BDF8',
+                            mint: '#4ADE80',
+                            cream: '#FFFDF0',
+                            white: '#FFFFFF',
+                            black: '#121212',
+                            gray: '#E2E8F0',
+                            bg: '#FFFDF0',
+                        }
+                    },
+                    boxShadow: {
+                        'brutal-sm': '3px 3px 0px 0px #000000',
+                        'brutal': '5px 5px 0px 0px #000000',
+                        'brutal-lg': '8px 8px 0px 0px #000000',
+                        'brutal-xl': '12px 12px 0px 0px #000000',
+                        'brutal-yellow': '5px 5px 0px 0px #FFD166',
+                        'brutal-cyan': '5px 5px 0px 0px #38BDF8',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFFDF0;
+            color: #121212;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark Mode Styling Enhancements */
+        html.dark body {
+            background-color: #121212;
+            color: #FFFDF0;
+        }
+        html.dark .nb-card {
+            background-color: #1E1E1E;
+            color: #FFFDF0;
+            border-color: #FFFFFF;
+            box-shadow: 6px 6px 0px 0px #FFFFFF;
+        }
+        html.dark .nb-btn {
+            border-color: #FFFFFF;
+        }
+        html.dark .nb-btn:hover {
+            box-shadow: 6px 6px 0px 0px #FFD166;
+        }
+        html.dark .bg-white {
+            background-color: #1E1E1E !important;
+            color: #FFFDF0 !important;
+            border-color: #FFFFFF !important;
+        }
+        html.dark nav {
+            background-color: #1E1E1E;
+            border-color: #FFFFFF;
+        }
+        html.dark p, html.dark .text-gray-700, html.dark .text-gray-800 {
+            color: #E2E8F0 !important;
+        }
+
+        /* REACT BITS: Scroll Reveal Animation Styles */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* REACT BITS: Split Text Characters Animation */
+        .split-text-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(35px) rotate(8deg) scale(0.8);
+            transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: opacity, transform;
+        }
+        .hero-active .split-text-char {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg) scale(1);
+        }
+
+        /* REACT BITS: Typewriter Cursor */
+        .typewriter-cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.1em;
+            background-color: #FF1E27;
+            margin-left: 4px;
+            vertical-align: middle;
+            border: 2px solid #000;
+            animation: blinkCursor 0.8s steps(2, start) infinite;
+        }
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* REACT BITS: Magnetic Button Physics */
+        .magnetic-btn {
+            display: inline-flex;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease;
+            will-change: transform;
+        }
+
+        /* REACT BITS: 3D Tilted Card Container */
+        .tilted-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+            will-change: transform, box-shadow;
+        }
+
+        /* REACT BITS: Logo Loop Horizontal Marquee */
+        @keyframes logoLoopScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .logo-loop-track {
+            display: flex;
+            width: max-content;
+            animation: logoLoopScroll 22s linear infinite;
+        }
+        .logo-loop-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* New Cool Animations: Pulse Glow, Tilt & Bounce */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 5px 5px 0px 0px #000000; transform: scale(1); }
+            50% { box-shadow: 8px 8px 15px 0px rgba(255, 209, 102, 0.8); transform: scale(1.02); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spinSlow 12s linear infinite;
+        }
+
+        @keyframes bounceSubtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-bounce-subtle {
+            animation: bounceSubtle 2.5s ease-in-out infinite;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        .animate-wiggle {
+            animation: wiggle 2s ease-in-out infinite;
+        }
+
+        /* Slow Motion Reveal Effect for Hero Intro Section */
+        .slow-hero-reveal {
+            opacity: 0;
+            transform: scale(0.93) translateY(35px);
+            transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .slow-hero-reveal.hero-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 18s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Brutalist Button Styles */
+        .nb-btn {
+            border: 3.5px solid #000;
+            font-weight: 800;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        .nb-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px 0px #000;
+        }
+        .nb-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px #000;
+        }
+
+        /* Brutalist Card Styles */
+        .nb-card {
+            border: 3.5px solid #000;
+            background-color: #ffffff;
+            box-shadow: 6px 6px 0px 0px #000;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .nb-card-hover:hover {
+            transform: translate(-5px, -5px) rotate(-0.5deg);
+            box-shadow: 11px 11px 0px 0px #000;
+        }
+
+        /* Balanced Pattern Background */
+        .grid-pattern {
+            background-image: radial-gradient(#FF1E27 1.5px, transparent 1.5px), radial-gradient(#FFD166 1.5px, transparent 1.5px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFD166;
+            border-left: 3.5px solid #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF1E27;
+            border: 2.5px solid #000;
+        }
+
+        /* CUSTOM HERO BACKGROUND IMAGE & OVERLAY STYLES */
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 0;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 253, 240, 0.78);
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+        html.dark .hero-overlay {
+            background: rgba(18, 18, 18, 0.85);
+        }
+
+        /* MASTER PROMPT: Custom Cursor & Spotlight Styles (Desktop Only) */
+        #custom-cursor {
+            width: 16px;
+            height: 16px;
+            background-color: #FF1E27;
+            border: 2.5px solid #000000;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease-out, width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+            box-shadow: 2px 2px 0px 0px #000;
+        }
+        #custom-cursor.cursor-hover {
+            width: 38px;
+            height: 38px;
+            background-color: #FFD166;
+            opacity: 0.9;
+        }
+        #cursor-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(255, 209, 102, 0.15) 0%, rgba(255, 209, 102, 0.04) 45%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+        }
+
+        /* Scroll Progress Bar at Top */
+        #scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: #FF1E27;
+            border-bottom: 1px solid #000;
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Image Distortion / Hover Zoom Effect for Projects */
+        .project-img-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        .project-img-wrapper img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+            will-change: transform, filter;
+        }
+        .tilted-card:hover .project-img-wrapper img {
+            transform: scale(1.08) rotate(1deg);
+            filter: grayscale(0%);
+        }
+
+        /* Accessibility: Prefers Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            #custom-cursor, #cursor-spotlight {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="selection:bg-nb-yellow selection:text-black">
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scroll-progress-bar"></div>
+
+    <!-- CUSTOM CURSOR & CURSOR SPOTLIGHT (ACTIVE ON DESKTOP) -->
+    <div id="custom-cursor" class="hidden md:block"></div>
+    <div id="cursor-spotlight" class="hidden md:block"></div>
+
+    <!-- INTRO / LOGIN ANIMATION OVERLAY (7 DETIK LOGIN) -->
+    <div id="intro-overlay" class="fixed inset-0 z-50 bg-nb-red border-8 border-black flex flex-col items-center justify-center p-4 transition-all duration-1000 ease-in-out">
+        <!-- LOGIN SYSTEM INITIALIZING CARD -->
+        <div id="login-card" class="nb-card bg-nb-cream p-8 max-w-md w-full text-center transform scale-100 shadow-brutal-xl relative overflow-hidden transition-all duration-500">
+            <!-- Animated Rotating Star Badge -->
+            <div class="w-20 h-20 bg-nb-yellow text-black border-4 border-black mx-auto mb-4 flex items-center justify-center text-4xl font-black shadow-brutal animate-bounce-subtle">
+                <i class="fa-solid fa-bolt text-nb-red text-3xl animate-pulse"></i>
+            </div>
+            <h2 class="font-heading font-black text-3xl uppercase tracking-tight text-black">FAJAR.DEV</h2>
+            <p id="intro-status-text" class="font-bold text-xs uppercase mt-2 tracking-wider text-nb-red h-6 flex items-center justify-center">
+                INITIALIZING SYSTEM...
+            </p>
+            
+            <!-- 7-Second Progress Bar with Gold Fill -->
+            <div class="w-full bg-white border-3 border-black h-7 mt-4 relative overflow-hidden shadow-brutal-sm">
+                <div id="intro-progress" class="bg-nb-yellow h-full w-0 transition-all duration-75 ease-linear border-r-3 border-black"></div>
+            </div>
+            <div class="flex justify-between items-center text-xs font-mono font-bold mt-2 text-black">
+                <span>SYSTEM LOGIN</span>
+                <span id="intro-percent" class="bg-black text-nb-yellow px-2 py-0.5 border border-black">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP MARQUEE BANNER -->
+    <div class="bg-nb-yellow text-black border-b-4 border-black py-2.5 overflow-hidden font-heading font-black text-sm tracking-wider uppercase">
+        <div class="animate-marquee whitespace-nowrap flex gap-8">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-flag text-nb-red"></i> TEKNIK KOMPUTER & JARINGAN (TKJ)</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-black"></i> EXPERT MIKROTIK & NETWORK MANAGEMENT</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-nb-red"></i> TROUBLESHOOTING & HARDWARE ASSEMBLY</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-black"></i> PEKALONGAN, INDONESIA</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-star text-nb-red"></i> FAJAR HIBATULLAH PORTFOLIO 2026</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-flag text-nb-red"></i> TEKNIK KOMPUTER & JARINGAN (TKJ)</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-black"></i> EXPERT MIKROTIK & NETWORK MANAGEMENT</span>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-nb-cream border-b-4 border-black px-4 lg:px-12 py-3.5 shadow-brutal-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="font-heading font-black text-2xl lg:text-3xl tracking-tight flex items-center gap-2 bg-nb-red text-white px-3.5 py-1.5 border-3 border-black shadow-brutal hover:bg-nb-yellow hover:text-black transition-all">
+                <span>FAJAR.DEV</span>
+                <span class="inline-block w-3 h-3 bg-nb-yellow rounded-full border-2 border-black animate-ping"></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-6 font-heading font-extrabold text-base">
+                <a href="#about" class="hover:underline underline-offset-4 hover:bg-nb-yellow px-2 py-1 border-2 border-transparent hover:border-black transition-all">Tentang</a>
+                <a href="#skills" class="hover:underline underline-offset-4 hover:bg-nb-cyan px-2 py-1 border-2 border-transparent hover:border-black transition-all">Skill</a>
+                <a href="#projects" class="hover:underline underline-offset-4 hover:bg-nb-mint px-2 py-1 border-2 border-transparent hover:border-black transition-all">Project</a>
+                <a href="#experience" class="hover:underline underline-offset-4 hover:bg-nb-yellow px-2 py-1 border-2 border-transparent hover:border-black transition-all">Pengalaman</a>
+                <a href="#contact" class="hover:underline underline-offset-4 hover:bg-nb-red hover:text-white px-2 py-1 border-2 border-transparent hover:border-black transition-all">Kontak</a>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <!-- Dark / Light Mode Toggle Button -->
+                <button onclick="toggleDarkLightMode()" id="theme-toggle-btn" title="Mode Terang / Gelap" class="nb-btn bg-nb-yellow text-black px-3.5 py-2 text-lg flex items-center justify-center hover:bg-nb-cyan">
+                    <i class="fa-solid fa-moon text-xl" id="theme-toggle-icon"></i>
+                </button>
+                
+                <a href="#contact" class="nb-btn magnetic-btn bg-nb-red text-white hover:bg-nb-yellow hover:text-black px-4 py-2 text-sm uppercase tracking-wider flex items-center gap-2">
+                    <span>Hire Me!</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden nb-btn bg-white px-3 py-2 text-lg">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t-4 border-black bg-white p-4 rounded-none shadow-brutal flex flex-col gap-3 font-heading font-bold">
+            <a href="#about" onclick="toggleMobileMenu()" class="p-2 border-2 border-black bg-nb-yellow">🙋‍♂️ Tentang Saya</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="p-2 border-2 border-black bg-nb-cyan">⚡ Skill & Tools</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="p-2 border-2 border-black bg-nb-mint">📂 Project Pilihan</a>
+            <a href="#experience" onclick="toggleMobileMenu()" class="p-2 border-2 border-black bg-white">📜 Pengalaman</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="p-2 border-2 border-black bg-nb-red text-white">📩 Hubungi Saya</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="about" class="relative pt-12 pb-20 px-4 lg:px-12 overflow-hidden border-b-4 border-black">
+        
+        <!-- CUSTOM HERO BACKGROUND IMAGE & RESPONSIVE PICTURE -->
+        <picture class="absolute inset-0 w-full h-full pointer-events-none z-0">
+            <source id="hero-bg-source-mobile" media="(max-width: 767px)" srcset="">
+            <img id="hero-bg-img" src="" alt="Hero Background" class="hero-background">
+        </picture>
+        
+        <!-- OVERLAY TERPISAH DENGAN POLA DOTS NEO-BRUTALISM -->
+        <div class="hero-overlay grid-pattern pointer-events-none"></div>
+
+        <div id="hero-content" class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center slow-hero-reveal">
+            
+            <!-- Hero Left Column / Bio & Actions -->
+            <div class="order-1 lg:order-1 lg:col-span-7 flex flex-col items-start gap-6">
+                <!-- Badge Sticker -->
+                <div class="inline-flex items-center gap-2 bg-nb-yellow text-black px-4 py-1.5 border-3 border-black shadow-brutal font-heading font-black uppercase text-sm tracking-wide transform -rotate-1 animate-wiggle parallax-element" data-speed="0.04">
+                    <i class="fa-solid fa-user-gear text-nb-red"></i>
+                    <span>PROFILE & IDENTITAS DIRI</span>
+                </div>
+
+                <!-- Subheading: ABOUT ME -->
+                <div class="inline-block bg-nb-yellow text-black px-4 py-1.5 border-4 border-black shadow-brutal font-heading font-black text-lg sm:text-xl uppercase tracking-wider transform -rotate-1">
+                    ABOUT ME
+                </div>
+
+                <!-- REACT BITS 1: Split Text Headline (FAJAR HIBATULLAH) -->
+                <h1 class="font-heading font-black text-5xl sm:text-7xl lg:text-8xl leading-none uppercase tracking-tight">
+                    <span id="split-headline" class="bg-nb-red text-white px-4 py-2 border-4 border-black shadow-brutal inline-block transform rotate-1 split-text" data-text="FAJAR HIBATULLAH">
+                        FAJAR HIBATULLAH
+                    </span>
+                </h1>
+
+                <!-- REACT BITS 6: Text Type / Animated Profession Subtitle -->
+                <div class="bg-black text-nb-yellow px-4 py-2 border-3 border-black shadow-brutal font-heading font-black text-base sm:text-lg uppercase tracking-wider flex items-center">
+                    <span id="typewriter-text">LULUSAN SMK TEKNIK KOMPUTER DAN JARINGAN</span>
+                    <span class="typewriter-cursor"></span>
+                </div>
+
+                <!-- Subtitle / Bio (Tanpa Emoticon) -->
+                <p class="text-lg sm:text-xl font-medium leading-relaxed bg-white p-5 border-3 border-black shadow-brutal max-w-2xl">
+                    Halo! Saya <strong class="bg-nb-yellow px-2 py-0.5 border border-black">Fajar Hibatullah</strong>, lulusan SMK Teknik Komputer dan Jaringan dari Pekalongan. Memiliki minat mendalam pada jaringan Mikrotik, perakitan PC, troubleshooting OS, serta siap bekerja disiplin dan tangguh.
+                </p>
+
+                <!-- REACT BITS 2: Action Buttons with Magnet Effect -->
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <a href="#projects" class="nb-btn magnetic-btn bg-nb-red text-white hover:bg-nb-yellow hover:text-black px-6 py-3 text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Lihat Portfolio</span>
+                    </a>
+                    <button onclick="copyEmail()" class="nb-btn magnetic-btn bg-nb-yellow text-black hover:bg-nb-cyan px-6 py-3 text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-copy"></i>
+                        <span id="copy-email-text">Salin Email</span>
+                    </button>
+                    <a href="#contact" class="nb-btn magnetic-btn bg-black text-white hover:bg-nb-mint hover:text-black px-6 py-3 text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Hubungi Saya</span>
+                    </a>
+                </div>
+
+                <!-- Quick Tech Badges -->
+                <div class="flex flex-wrap items-center gap-3 pt-4 font-heading font-bold text-sm">
+                    <span class="text-xs uppercase font-black opacity-75">KEAHLIAN UTAMA:</span>
+                    <span class="bg-nb-yellow px-3 py-1 border-2 border-black shadow-brutal-sm">Mikrotik</span>
+                    <span class="bg-nb-cyan px-3 py-1 border-2 border-black shadow-brutal-sm">Jaringan LAN</span>
+                    <span class="bg-nb-mint px-3 py-1 border-2 border-black shadow-brutal-sm">Windows OS</span>
+                    <span class="bg-white px-3 py-1 border-2 border-black shadow-brutal-sm">Perakitan PC</span>
+                    <span class="bg-nb-yellow px-3 py-1 border-2 border-black shadow-brutal-sm">Desain Grafis</span>
+                </div>
+            </div>
+
+            <!-- Hero Right Column / Avatar & Badges (Lanyard 3D Integration) -->
+            <div class="order-2 lg:order-2 lg:col-span-5 relative flex flex-col items-center justify-center min-h-[520px]">
+                
+                <!-- 3D Interactive Lanyard Component -->
+                <div id="lanyard-container" class="relative w-full h-[520px] flex items-center justify-center overflow-visible select-none cursor-grab active:cursor-grabbing">
+                    <canvas id="lanyard-canvas" class="w-full h-full drop-shadow-2xl"></canvas>
+                    
+                    <!-- Decorative Sticker Tag -->
+                    <div class="absolute top-4 right-2 bg-nb-yellow text-black border-3 border-black px-3 py-1 font-heading font-black text-xs uppercase shadow-brutal transform rotate-6 z-10 pointer-events-none animate-float parallax-element" data-speed="0.06">
+                        AVAILABLE FOR HIRE
+                    </div>
+
+                    <!-- Interactive Hint Sticker -->
+                    <div class="absolute bottom-2 bg-black text-nb-yellow border-3 border-black px-4 py-1.5 font-heading font-black text-xs uppercase shadow-brutal transform -rotate-2 pointer-events-none z-10 flex items-center gap-2">
+                        <i class="fa-solid fa-hand-pointer animate-bounce text-nb-red"></i>
+                        <span>TARIK & GOYANGKAN LANYARD ID CARD!</span>
+                    </div>
+                </div>
+
+                <!-- Floating Decor Boxes -->
+                <div class="hidden sm:block absolute bottom-4 -left-6 bg-nb-cyan text-black border-3 border-black p-3 font-heading font-black shadow-brutal -rotate-6 z-10 pointer-events-none animate-float parallax-element" data-speed="0.05">
+                    FAST PERFORMANCE
+                </div>
+                <div class="hidden sm:block absolute top-12 -left-8 bg-nb-mint text-black border-3 border-black p-3 font-heading font-black shadow-brutal rotate-12 z-10 pointer-events-none animate-wiggle parallax-element" data-speed="0.03">
+                    PIXEL PERFECT
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REPEATING TEXT MARQUEE DIVIDER 1 -->
+    <div class="bg-nb-red text-white border-b-4 border-black py-3 overflow-hidden font-heading font-black text-base tracking-widest uppercase shadow-brutal-sm">
+        <div class="animate-marquee whitespace-nowrap flex gap-10">
+            <span>GRAPHIC DESIGNER ✳ TKJ STUDENT ✳ CREATIVE THINKER ✳ IT ENTHUSIAST ✳</span>
+            <span>GRAPHIC DESIGNER ✳ TKJ STUDENT ✳ CREATIVE THINKER ✳ IT ENTHUSIAST ✳</span>
+            <span>GRAPHIC DESIGNER ✳ TKJ STUDENT ✳ CREATIVE THINKER ✳ IT ENTHUSIAST ✳</span>
+            <span>GRAPHIC DESIGNER ✳ TKJ STUDENT ✳ CREATIVE THINKER ✳ IT ENTHUSIAST ✳</span>
+        </div>
+    </div>
+
+    <!-- FUN STATS COUNTER BAR (COUNT UP ANIMATED) -->
+    <section id="stats-section" class="bg-black border-b-4 border-black py-8 px-4 text-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center font-heading">
+            <div class="nb-card bg-nb-yellow text-black p-4">
+                <div class="text-4xl lg:text-5xl font-black text-black">
+                    <span class="count-up" data-target="2027">0</span> 🎓
+                </div>
+                <div class="text-sm font-extrabold uppercase mt-1">Lulusan SMK TKJ</div>
+            </div>
+            <div class="nb-card bg-nb-red text-white p-4">
+                <div class="text-4xl lg:text-5xl font-black text-white">
+                    <span class="count-up" data-target="100">0</span>% ⚡
+                </div>
+                <div class="text-sm font-extrabold uppercase mt-1">Kedisiplinan & Dedikasi</div>
+            </div>
+            <div class="nb-card bg-nb-cyan text-black p-4">
+                <div class="text-4xl lg:text-5xl font-black text-black">
+                    <span class="count-up" data-target="3">0</span>+ Thn 📜
+                </div>
+                <div class="text-sm font-extrabold uppercase mt-1">Praktik TKJ & Pramuka</div>
+            </div>
+            <div class="nb-card bg-nb-mint text-black p-4">
+                <div class="text-4xl lg:text-5xl font-black text-black">
+                    <span class="count-up" data-target="4">0</span>+ 📂
+                </div>
+                <div class="text-sm font-extrabold uppercase mt-1">Praktik & Project Utama</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS & TOOLS SECTION -->
+    <section id="skills" class="py-20 px-4 lg:px-12 border-b-4 border-black bg-white">
+        <div class="max-w-7xl mx-auto scroll-reveal">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <div class="inline-block bg-nb-yellow text-black font-heading font-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm uppercase mb-2">
+                        KAPABILITAS KEAHLIAN
+                    </div>
+                    <h2 class="font-heading font-black text-4xl sm:text-5xl uppercase">
+                        SKILL & TEKNOLOGI
+                    </h2>
+                </div>
+                <p class="max-w-md font-medium text-gray-700">
+                    Kemampuan teknis komputer, infrastruktur jaringan Mikrotik, serta keahlian pendukung yang saya kuasai selama studi di SMK Ma'arif NU Tirto.
+                </p>
+            </div>
+
+            <!-- REACT BITS 5: Logo Loop (Tech Ecosystem Marquee Bar) -->
+            <div class="mb-12 border-4 border-black bg-nb-yellow py-4 overflow-hidden shadow-brutal relative">
+                <div class="logo-loop-track flex items-center gap-8 font-heading font-black text-sm uppercase text-black">
+                    <!-- Loop Items Set 1 -->
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-network-wired text-nb-red"></i> MIKROTIK ROUTEROS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-brands fa-windows text-blue-600"></i> WINDOWS OS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-ethernet text-black"></i> LAN & CRIMPING</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-computer text-nb-red"></i> PC HARDWARE</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-palette text-amber-500"></i> DESAIN GRAFIS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-file-word text-blue-700"></i> MS OFFICE SUITE</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-screwdriver-wrench text-black"></i> TROUBLESHOOTING</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-brands fa-linux text-yellow-600"></i> LINUX BASICS</span>
+
+                    <!-- Loop Items Set 2 (Duplicate for Seamless Loop) -->
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-network-wired text-nb-red"></i> MIKROTIK ROUTEROS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-brands fa-windows text-blue-600"></i> WINDOWS OS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-ethernet text-black"></i> LAN & CRIMPING</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-computer text-nb-red"></i> PC HARDWARE</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-palette text-amber-500"></i> DESAIN GRAFIS</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-file-word text-blue-700"></i> MS OFFICE SUITE</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-solid fa-screwdriver-wrench text-black"></i> TROUBLESHOOTING</span>
+                    <span class="bg-white border-2 border-black px-4 py-2 flex items-center gap-2 shadow-brutal-sm"><i class="fa-brands fa-linux text-yellow-600"></i> LINUX BASICS</span>
+                </div>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Jaringan & Mikrotik -->
+                <div class="nb-card nb-card-hover p-6 bg-nb-yellow scroll-reveal">
+                    <div class="w-14 h-14 bg-nb-red text-white border-3 border-black flex items-center justify-center text-3xl font-black shadow-brutal-sm mb-4">
+                        🌐
+                    </div>
+                    <h3 class="font-heading font-black text-2xl uppercase mb-3">Jaringan & Server</h3>
+                    <p class="font-medium text-sm mb-4">Membangun, mengonfigurasi, dan mengelola dasar jaringan LAN/WAN serta router Mikrotik.</p>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Mikrotik Router</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Dasar Jaringan</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">LAN / WAN</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">IP Addressing</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Crimping Kabel</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Hardware & Troubleshooting -->
+                <div class="nb-card nb-card-hover p-6 bg-nb-cyan scroll-reveal">
+                    <div class="w-14 h-14 bg-black text-white border-3 border-black flex items-center justify-center text-3xl font-black shadow-brutal-sm mb-4">
+                        🖥️
+                    </div>
+                    <h3 class="font-heading font-black text-2xl uppercase mb-3">Hardware & OS</h3>
+                    <p class="font-medium text-sm mb-4">Perakitan komputer dari nol, instalasi sistem operasi Windows, dan perawatan rutin hardware.</p>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Perakitan PC</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Instalasi Windows</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Troubleshooting</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Maintenance PC</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Desain & Software Produktivitas -->
+                <div class="nb-card nb-card-hover p-6 bg-nb-mint scroll-reveal">
+                    <div class="w-14 h-14 bg-white text-black border-3 border-black flex items-center justify-center text-3xl font-black shadow-brutal-sm mb-4">
+                        🎨
+                    </div>
+                    <h3 class="font-heading font-black text-2xl uppercase mb-3 text-black">Desain & Software</h3>
+                    <p class="font-medium text-sm mb-4 text-black">Merancang materi visual grafis dan mengoperasikan aplikasi perkantoran dengan lancar.</p>
+                    
+                    <div class="flex flex-wrap gap-2 text-black">
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Desain Grafis</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Microsoft Word</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">Microsoft Excel</span>
+                        <span class="bg-white border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">PowerPoint</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PORTFOLIO / PROJECTS SECTION -->
+    <section id="projects" class="py-20 px-4 lg:px-12 border-b-4 border-black bg-nb-bg grid-pattern">
+        <div class="max-w-7xl mx-auto scroll-reveal">
+            
+            <!-- Section Header & Filter Buttons -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+                <div>
+                    <div class="inline-block bg-nb-red text-white font-heading font-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm uppercase mb-2">
+                        DOKUMENTASI PRAKTIK & KARYA
+                    </div>
+                    <h2 class="font-heading font-black text-4xl sm:text-5xl uppercase">
+                        PORTFOLIO KEAHLIAN
+                    </h2>
+                </div>
+
+                <!-- Filter Category Buttons -->
+                <div class="flex flex-wrap gap-2 font-heading font-bold text-sm">
+                    <button onclick="filterProjects('all')" class="project-filter-btn nb-btn bg-black text-white px-4 py-2 text-xs uppercase" data-filter="all">
+                        Semua (4) ⭐
+                    </button>
+                    <button onclick="filterProjects('network')" class="project-filter-btn nb-btn bg-white text-black px-4 py-2 text-xs uppercase" data-filter="network">
+                        🌐 Jaringan
+                    </button>
+                    <button onclick="filterProjects('hardware')" class="project-filter-btn nb-btn bg-white text-black px-4 py-2 text-xs uppercase" data-filter="hardware">
+                        🖥️ Hardware
+                    </button>
+                    <button onclick="filterProjects('design')" class="project-filter-btn nb-btn bg-white text-black px-4 py-2 text-xs uppercase" data-filter="design">
+                        🎨 Desain Grafis
+                    </button>
+                </div>
+            </div>
+
+            <!-- REACT BITS 4: Projects Grid with Tilted Card Effect -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-container">
+                
+                <!-- Project Card 1 (Tilted Card) -->
+                <div class="project-card tilted-card nb-card nb-card-hover bg-white flex flex-col justify-between" data-category="network">
+                    <div>
+                        <!-- Project Image Container with Distortion Hover -->
+                        <div class="relative border-b-4 border-black project-img-wrapper cursor-pointer h-60 bg-nb-yellow" onclick="openLightbox('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80', 'Konfigurasi Mikrotik Router LAN')">
+                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1000&q=80" alt="Konfigurasi Mikrotik Router" class="w-full h-full object-cover grayscale hover:grayscale-0">
+                            <span class="absolute top-3 left-3 bg-nb-yellow text-black font-heading font-black text-xs uppercase px-3 py-1 border-2 border-black shadow-brutal-sm">
+                                🌐 Jaringan Komputer
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-black text-white text-xs font-bold px-2.5 py-1 border border-black shadow-brutal-sm">
+                                <i class="fa-solid fa-expand mr-1"></i> Perbesar
+                            </span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <h3 class="font-heading font-black text-2xl uppercase mb-2">Konfigurasi Mikrotik Router LAN</h3>
+                            <p class="text-sm font-medium text-gray-700 mb-4">
+                                Setup dan manajemen jaringan lokal menggunakan Router Mikrotik, pembagian IP address, serta pengujian konektivitas antarnode.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-nb-yellow border-2 border-black text-xs font-bold px-2 py-0.5">Mikrotik</span>
+                                <span class="bg-nb-cyan border-2 border-black text-xs font-bold px-2 py-0.5">Winbox</span>
+                                <span class="bg-nb-mint border-2 border-black text-xs font-bold px-2 py-0.5">DHCP Server</span>
+                                <span class="bg-black text-white border-2 border-black text-xs font-bold px-2 py-0.5">LAN Cable</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Links -->
+                    <div class="p-6 pt-0 flex gap-3">
+                        <button onclick="openModal('Konfigurasi Mikrotik Router LAN', 'Melakukan setting routerboard Mikrotik melalui Winbox, pembuatan alokasi IP Address static dan DHCP, pengaturan gateway internet, serta testing koneksi pada jaringan sekolah.', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1000&q=80', ['Mikrotik', 'Winbox', 'LAN', 'Networking'])" class="nb-btn magnetic-btn bg-nb-red text-white hover:bg-nb-yellow hover:text-black px-4 py-2 text-sm flex-1 text-center">
+                            Detail Praktik <i class="fa-solid fa-circle-info ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 (Tilted Card) -->
+                <div class="project-card tilted-card nb-card nb-card-hover bg-white flex flex-col justify-between" data-category="hardware">
+                    <div>
+                        <!-- Project Image Container -->
+                        <div class="relative border-b-4 border-black project-img-wrapper cursor-pointer h-60 bg-black" onclick="openLightbox('https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1200&q=80', 'Perakitan & Maintenance PC Lab')">
+                            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1000&q=80" alt="Perakitan & Perawatan PC" class="w-full h-full object-cover grayscale hover:grayscale-0">
+                            <span class="absolute top-3 left-3 bg-nb-cyan text-black font-heading font-black text-xs uppercase px-3 py-1 border-2 border-black shadow-brutal-sm">
+                                🖥️ Hardware PC
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-black text-white text-xs font-bold px-2.5 py-1 border border-black shadow-brutal-sm">
+                                <i class="fa-solid fa-expand mr-1"></i> Perbesar
+                            </span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <h3 class="font-heading font-black text-2xl uppercase mb-2">Perakitan & Maintenance PC Lab</h3>
+                            <p class="text-sm font-medium text-gray-700 mb-4">
+                                Perakitan komponen komputer (Motherboard, Processor, RAM, PSU), pembersihan hardware, dan troubleshooting sistem operasi.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-nb-cyan border-2 border-black text-xs font-bold px-2 py-0.5">Hardware Assembly</span>
+                                <span class="bg-nb-red text-white border-2 border-black text-xs font-bold px-2 py-0.5">Troubleshooting</span>
+                                <span class="bg-nb-yellow border-2 border-black text-xs font-bold px-2 py-0.5">Windows OS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Links -->
+                    <div class="p-6 pt-0 flex gap-3">
+                        <button onclick="openModal('Perakitan & Maintenance PC Lab', 'Melakukan pemilihan hardware komputer, pemasangan processor thermal paste, instalasi RAM & SSD, pengaturan BIOS, hingga instalasi Windows 10/11 beserta driver pendukung.', 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1000&q=80', ['Perakitan PC', 'BIOS', 'Windows OS', 'Maintenance'])" class="nb-btn magnetic-btn bg-black text-white hover:bg-nb-cyan hover:text-black px-4 py-2 text-sm flex-1 text-center">
+                            Detail Praktik <i class="fa-solid fa-circle-info ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 (Tilted Card) -->
+                <div class="project-card tilted-card nb-card nb-card-hover bg-white flex flex-col justify-between" data-category="design">
+                    <div>
+                        <!-- Project Image Container -->
+                        <div class="relative border-b-4 border-black project-img-wrapper cursor-pointer h-60 bg-nb-mint" onclick="openLightbox('https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1200&q=80', 'Desain Media Informasi & Poster')">
+                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1000&q=80" alt="Desain Grafis & Media Informasi" class="w-full h-full object-cover grayscale hover:grayscale-0">
+                            <span class="absolute top-3 left-3 bg-nb-mint text-black font-heading font-black text-xs uppercase px-3 py-1 border-2 border-black shadow-brutal-sm">
+                                🎨 Desain Grafis
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-black text-white text-xs font-bold px-2.5 py-1 border border-black shadow-brutal-sm">
+                                <i class="fa-solid fa-expand mr-1"></i> Perbesar
+                            </span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <h3 class="font-heading font-black text-2xl uppercase mb-2">Desain Media Informasi & Poster</h3>
+                            <p class="text-sm font-medium text-gray-700 mb-4">
+                                Pembuatan karya desain grafis menarik untuk poster kegiatan sekolah, spanduk acara kepramukaan, dan konten visual digital.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-nb-mint border-2 border-black text-xs font-bold px-2 py-0.5">Desain Grafis</span>
+                                <span class="bg-nb-yellow border-2 border-black text-xs font-bold px-2 py-0.5">Poster Layout</span>
+                                <span class="bg-black text-white border-2 border-black text-xs font-bold px-2 py-0.5">Media Perkemahan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Links -->
+                    <div class="p-6 pt-0 flex gap-3">
+                        <button onclick="openModal('Desain Media Informasi & Poster', 'Mendesain elemen visual menarik dengan kombinasi tata letak typography yang rapi untuk mendukung publikasi kegiatan sekolah dan Pramuka Penegak.', 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=1000&q=80', ['Desain Grafis', 'Visual Art', 'Poster Design'])" class="nb-btn magnetic-btn bg-nb-red text-white hover:bg-nb-mint hover:text-black px-4 py-2 text-sm flex-1 text-center">
+                            Detail Karya <i class="fa-solid fa-circle-info ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 (Tilted Card) -->
+                <div class="project-card tilted-card nb-card nb-card-hover bg-white flex flex-col justify-between" data-category="hardware">
+                    <div>
+                        <!-- Project Image Container -->
+                        <div class="relative border-b-4 border-black project-img-wrapper cursor-pointer h-60 bg-nb-yellow" onclick="openLightbox('https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1200&q=80', 'Instalasi Windows & MS Office')">
+                            <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1000&q=80" alt="Instalasi Windows OS & Software" class="w-full h-full object-cover grayscale hover:grayscale-0">
+                            <span class="absolute top-3 left-3 bg-nb-yellow text-black font-heading font-black text-xs uppercase px-3 py-1 border-2 border-black shadow-brutal-sm">
+                                💻 System Installation
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-black text-white text-xs font-bold px-2.5 py-1 border border-black shadow-brutal-sm">
+                                <i class="fa-solid fa-expand mr-1"></i> Perbesar
+                            </span>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <h3 class="font-heading font-black text-2xl uppercase mb-2">Instalasi Windows & MS Office</h3>
+                            <p class="text-sm font-medium text-gray-700 mb-4">
+                                Pengalaman praktikum instalasi ulang Windows OS, penginstalan paket Microsoft Office (Word, Excel, PowerPoint), dan software pendukung.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-nb-yellow border-2 border-black text-xs font-bold px-2 py-0.5">Windows Installation</span>
+                                <span class="bg-nb-cyan border-2 border-black text-xs font-bold px-2 py-0.5">MS Office Suite</span>
+                                <span class="bg-nb-red text-white border-2 border-black text-xs font-bold px-2 py-0.5">Software Utility</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Links -->
+                    <div class="p-6 pt-0 flex gap-3">
+                        <button onclick="openModal('Instalasi Windows & MS Office', 'Proses pembuatan bootable flashdisk, partisi harddisk/SSD, instalasi driver sistem, dan optimalisasi aplikasi kerja Microsoft Office untuk produktivitas.', 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1000&q=80', ['Windows OS', 'MS Office', 'Bootable USB'])" class="nb-btn magnetic-btn bg-black text-white hover:bg-nb-yellow hover:text-black px-4 py-2 text-sm flex-1 text-center">
+                            Detail Praktik <i class="fa-solid fa-circle-info ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROJECT DETAIL MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4">
+        <div class="nb-card bg-white max-w-2xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal()" class="absolute top-4 right-4 nb-btn bg-nb-red text-white px-3 py-1 font-black">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 nb-btn bg-nb-red text-white px-4 py-1.5 font-black text-sm uppercase shadow-brutal-sm">
+                Tutup <i class="fa-solid fa-xmark ml-1"></i>
+            </button>
+            <div class="nb-card bg-white p-2 border-4 border-black shadow-brutal-xl">
+                <img id="lightbox-img" src="" alt="Zoomed Project Image" class="max-h-[75vh] w-auto object-contain border-2 border-black">
+                <div id="lightbox-caption" class="p-3 font-heading font-black text-base uppercase text-center text-black bg-nb-yellow border-t-2 border-black mt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXPERIENCE TIMELINE SECTION -->
+    <section id="experience" class="py-20 px-4 lg:px-12 border-b-4 border-black bg-white">
+        <div class="max-w-5xl mx-auto scroll-reveal">
+            
+            <div class="text-center mb-16">
+                <div class="inline-block bg-nb-red text-white font-heading font-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm uppercase mb-2">
+                    📜 RIWAYAT & ORGANISASI
+                </div>
+                <h2 class="font-heading font-black text-4xl sm:text-5xl uppercase">
+                    PENGALAMAN & PENDIDIKAN 🔥
+                </h2>
+            </div>
+
+            <!-- Timeline Stack -->
+            <div class="space-y-8">
+                
+                <!-- Experience Item 1 -->
+                <div class="nb-card p-6 md:p-8 bg-nb-lightred relative">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b-3 border-black pb-4 mb-4 gap-2">
+                        <div>
+                            <span class="bg-nb-red text-white text-xs font-mono font-bold px-2 py-1 uppercase">2024 — 2027</span>
+                            <h3 class="font-heading font-black text-2xl uppercase mt-2">Praktik Pembelajaran TKJ 💻</h3>
+                            <div class="font-bold text-gray-800">SMK MA'ARIF NU TIRTO — TEKNIK KOMPUTER DAN JARINGAN</div>
+                        </div>
+                        <span class="nb-btn bg-white text-xs px-3 py-1.5 self-start md:self-auto">PRAKTIK SISWA</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 font-medium text-sm md:text-base">
+                        <li>Mempelajari dan mempraktikkan instalasi sistem operasi Windows pada perangkat laboratorium komputer.</li>
+                        <li>Mempelajari dasar-dasar jaringan komputer, pengabelan LAN (crimping), serta penguji konektivitas antarnode.</li>
+                        <li>Melakukan perakitan komponen komputer dari dasar serta perawatan (maintenance) rutin hardware PC.</li>
+                        <li>Mengoperasikan software aplikasi perkantoran: Microsoft Word, Excel, dan PowerPoint secara lancar.</li>
+                        <li>Melakukan troubleshooting dan penyelesaian kendala komputer sederhana secara mandiri dan tim.</li>
+                    </ul>
+                </div>
+
+                <!-- Experience Item 2 -->
+                <div class="nb-card p-6 md:p-8 bg-white">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b-3 border-black pb-4 mb-4 gap-2">
+                        <div>
+                            <span class="bg-black text-white text-xs font-mono font-bold px-2 py-1 uppercase">2024 — 2027</span>
+                            <h3 class="font-heading font-black text-2xl uppercase mt-2">Anggota Pramuka Penegak SMK ⚜️</h3>
+                            <div class="font-bold text-gray-800">SMK MA'ARIF NU TIRTO</div>
+                        </div>
+                        <span class="nb-btn bg-nb-red text-white text-xs px-3 py-1.5 self-start md:self-auto">ORGANISASI</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 font-medium text-sm md:text-base">
+                        <li>Aktif mengikuti kegiatan kepramukaan di sekolah secara rutin dan konsisten.</li>
+                        <li>Bekerja sama erat dengan anggota regu dalam menyelesaikan berbagai tantangan dan kegiatan perkemahan.</li>
+                        <li>Melatih sikap kedisiplinan tinggi, tanggung jawab personal, kepemimpinan, dan kerja sama tim.</li>
+                        <li>Berpartisipasi aktif dalam latihan rutin, perkemahan bakti, serta kegiatan sosial sekolah.</li>
+                    </ul>
+                </div>
+
+                <!-- Experience Item 3 -->
+                <div class="nb-card p-6 md:p-8 bg-nb-red text-white">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b-3 border-black pb-4 mb-4 gap-2 text-black">
+                        <div>
+                            <span class="bg-white text-black text-xs font-mono font-bold px-2 py-1 uppercase">PENDIDIKAN FORMAL</span>
+                            <h3 class="font-heading font-black text-2xl uppercase mt-2 text-white">SMK MA'ARIF NU TIRTO 🎓</h3>
+                            <div class="font-bold text-white opacity-90">Jurusan: Teknik Komputer dan Jaringan (2024 - 2027)</div>
+                        </div>
+                        <span class="nb-btn bg-white text-black text-xs px-3 py-1.5 self-start md:self-auto">SEKOLAH</span>
+                    </div>
+                    <p class="font-medium text-sm md:text-base text-white">
+                        Fokus bidang keahlian: Infrastruktur Jaringan, Mikrotik Router, Perakitan & Maintenance Komputer, Troubleshooting OS, serta Desain Grafis.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS / WHAT THEY SAY -->
+    <section class="py-20 px-4 lg:px-12 border-b-4 border-black bg-black text-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16">
+                <div class="inline-block bg-nb-red text-white font-heading font-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm uppercase mb-2">
+                    KARAKTER & ETOS KERJA
+                </div>
+                <h2 class="font-heading font-black text-4xl sm:text-5xl uppercase text-white">
+                    NILAI & KEUNGGULAN SAYA
+                </h2>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
+                
+                <!-- Card 1 -->
+                <div class="nb-card p-6 bg-white relative">
+                    <div class="text-nb-red text-xl font-black mb-2">⚡ DISIPLIN & TANGGUNG JAWAB</div>
+                    <p class="font-medium text-sm mb-6">
+                        Terbiasa bekerja tepat waktu, mematuhi petunjuk kerja, dan bertanggung jawab penuh atas tugas perakitan maupun konfigurasi jaringan.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-black">
+                        <div class="w-10 h-10 bg-nb-red text-white border-2 border-black rounded-full font-black flex items-center justify-center">
+                            F
+                        </div>
+                        <div>
+                            <div class="font-heading font-black text-sm uppercase">Fajar Hibatullah</div>
+                            <div class="text-xs font-semibold text-gray-600">Teknik Komputer & Jaringan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="nb-card p-6 bg-nb-lightred">
+                    <div class="text-black text-xl font-black mb-2">👥 KERJA SAMA TIM (TEAMWORK)</div>
+                    <p class="font-medium text-sm mb-6">
+                        Berpengalaman berorganisasi di Pramuka Penegak, siap berkolaborasi dalam tim teknis dan berkomunikasi dengan baik.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-black">
+                        <div class="w-10 h-10 bg-black text-white border-2 border-black rounded-full font-black flex items-center justify-center">
+                            P
+                        </div>
+                        <div>
+                            <div class="font-heading font-black text-sm uppercase">Pramuka Penegak</div>
+                            <div class="text-xs font-semibold text-gray-800">Leadership & Synergy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="nb-card p-6 bg-white">
+                    <div class="text-black text-xl font-black mb-2">🚀 KEMAUAN BELAJAR TINGGI</div>
+                    <p class="font-medium text-sm mb-6">
+                        Selalu bersemangat mempelajari teknologi baru di bidang jaringan, hardware, dan IT support untuk berkembang di dunia kerja.
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t-2 border-black">
+                        <div class="w-10 h-10 bg-nb-red text-white border-2 border-black rounded-full font-black flex items-center justify-center">
+                            I
+                        </div>
+                        <div>
+                            <div class="font-heading font-black text-sm uppercase">IT Enthusiast</div>
+                            <div class="text-xs font-semibold text-gray-800">Fast Learner</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 px-4 lg:px-12 border-b-4 border-black bg-nb-lightred grid-pattern">
+        <div class="max-w-5xl mx-auto scroll-reveal">
+            
+            <div class="nb-card p-8 md:p-12 bg-white relative">
+                
+                <div class="inline-block bg-nb-red text-white font-heading font-black px-3 py-1 border-2 border-black shadow-brutal-sm text-sm uppercase mb-4">
+                    📩 HUBUNGI SAYA
+                </div>
+
+                <h2 class="font-heading font-black text-4xl sm:text-5xl uppercase mb-4">
+                    MARI BERKOMUNIKASI! 💬
+                </h2>
+                <p class="font-medium text-gray-700 text-lg mb-8 max-w-2xl">
+                    Saya siap menerima kesempatan kerja, magang, maupun proyek terkait komputer, jaringan, dan IT Support. Silakan hubungi saya melalui form atau kontak di bawah ini.
+                </p>
+
+                <!-- Form & Contact Details Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- Form -->
+                    <form onsubmit="handleFormSubmit(event)" class="lg:col-span-7 space-y-4">
+                        <div>
+                            <label class="block font-heading font-black text-xs uppercase mb-1">Nama Lengkap 👤</label>
+                            <input type="text" required placeholder="Contoh: Nama Anda / Perusahaan" class="w-full p-3 border-3 border-black focus:outline-none focus:bg-nb-lightred font-medium shadow-brutal-sm">
+                        </div>
+
+                        <div>
+                            <label class="block font-heading font-black text-xs uppercase mb-1">Email Anda 📧</label>
+                            <input type="email" required placeholder="email@domain.com" class="w-full p-3 border-3 border-black focus:outline-none focus:bg-nb-lightred font-medium shadow-brutal-sm">
+                        </div>
+
+                        <div>
+                            <label class="block font-heading font-black text-xs uppercase mb-1">Pesan / Kesempatan Kerja 📝</label>
+                            <textarea rows="4" required placeholder="Halo Fajar, kami berminat untuk memberikan kesempatan kerja..." class="w-full p-3 border-3 border-black focus:outline-none focus:bg-nb-lightred font-medium shadow-brutal-sm"></textarea>
+                        </div>
+
+                        <button type="submit" class="nb-btn magnetic-btn bg-nb-red text-white w-full py-3.5 text-base uppercase tracking-wider flex justify-center items-center gap-2">
+                            <span>Kirim Pesan Sekarang</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+
+                    <!-- Contact Direct Info -->
+                    <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                        <div class="space-y-4">
+                            <div class="p-4 bg-nb-lightred border-3 border-black shadow-brutal-sm">
+                                <div class="font-heading font-black text-xs uppercase text-gray-700">EMAIL</div>
+                                <div class="font-heading font-bold text-base sm:text-lg break-all">fajarrrj272@gmail.com</div>
+                            </div>
+
+                            <div class="p-4 bg-white border-3 border-black shadow-brutal-sm">
+                                <div class="font-heading font-black text-xs uppercase text-gray-700">WHATSAPP / TELEPON</div>
+                                <div class="font-heading font-bold text-lg text-nb-red">0819-2791-7414</div>
+                            </div>
+
+                            <div class="p-4 bg-black text-white border-3 border-black shadow-brutal-sm">
+                                <div class="font-heading font-black text-xs uppercase">ALAMAT / LOKASI</div>
+                                <div class="font-heading font-bold text-sm sm:text-base">Ds. Tanjung Kec. Tirto Kab. Pekalongan</div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media Buttons -->
+                        <div>
+                            <div class="font-heading font-black text-xs uppercase mb-2">MEDIA SOSIAL:</div>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="mailto:fajarrrj272@gmail.com" class="nb-btn bg-white text-black p-3 text-lg" title="Email Direct">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </a>
+                                <a href="https://wa.me/6281927917414?text=apakah%20bener%20ini%20dengan%20fajar%20dev" target="_blank" class="nb-btn bg-white text-black p-3 text-lg" title="WhatsApp Auto Message">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <span class="nb-btn bg-nb-red text-white px-3 py-2 text-sm font-bold flex items-center gap-2" title="Social Handle">
+                                    <i class="fa-solid fa-user"></i> @ultr4manni
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-white py-10 px-4 lg:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="text-center md:text-left">
+                <div class="font-heading font-black text-2xl tracking-wider text-nb-red">FAJAR.DEV</div>
+                <p class="text-xs text-gray-400 mt-1">
+                    © 2026 Fajar Hibatullah — Lulusan SMK Teknik Komputer dan Jaringan.
+                </p>
+            </div>
+
+            <!-- Back to top button -->
+            <a href="#" class="nb-btn bg-nb-red text-white px-4 py-2 text-sm flex items-center gap-2">
+                <span>Kembali Ke Atas ⬆️</span>
+                <i class="fa-solid fa-arrow-up"></i>
+            </a>
+
+        </div>
+    </footer>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-32 transition-transform duration-300 pointer-events-none">
+        <div class="nb-card bg-nb-red text-white px-5 py-3 font-heading font-black text-sm uppercase flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-lg"></i>
+            <span id="toast-message">Pesan Terkirim!</span>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ==========================================
+        // CONFIG: HERO BACKGROUND IMAGE
+        // Ganti path / URL gambar di bawah ini untuk mengganti background Hero Section:
+        // ==========================================
+        const HERO_BACKGROUND_DESKTOP = "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1920&q=80"; // Path/URL Foto Desktop (misal: "images/background.jpg")
+        const HERO_BACKGROUND_MOBILE  = ""; // Path khusus mobile (opsional, jika kosong akan otomatis menggunakan foto desktop)
+
+        function initHeroBackground() {
+            const imgEl = document.getElementById('hero-bg-img');
+            const sourceMobile = document.getElementById('hero-bg-source-mobile');
+            if (imgEl) {
+                imgEl.src = HERO_BACKGROUND_DESKTOP;
+            }
+            if (sourceMobile) {
+                sourceMobile.srcset = HERO_BACKGROUND_MOBILE || HERO_BACKGROUND_DESKTOP;
+            }
+        }
+
+        // MASTER PROMPT: Custom Cursor & Cursor Spotlight & Mouse Parallax System
+        (function initCustomCursorAndSpotlight() {
+            const cursor = document.getElementById('custom-cursor');
+            const spotlight = document.getElementById('cursor-spotlight');
+            if (!cursor || !spotlight) return;
+
+            // Check if touch device
+            const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+            if (isTouch) {
+                cursor.style.display = 'none';
+                spotlight.style.display = 'none';
+                return;
+            }
+
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let cursorX = mouseX;
+            let cursorY = mouseY;
+            let spotX = mouseX;
+            let spotY = mouseY;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Mouse Parallax Effect on floating badges
+                const parallaxEls = document.querySelectorAll('.parallax-element');
+                parallaxEls.forEach(el => {
+                    const speed = parseFloat(el.getAttribute('data-speed')) || 0.04;
+                    const x = (window.innerWidth / 2 - mouseX) * speed;
+                    const y = (window.innerHeight / 2 - mouseY) * speed;
+                    el.style.transform = `translate3d(${x}px, ${y}px, 0px)`;
+                });
+            });
+
+            // Smooth Interpolation Loop using requestAnimationFrame
+            function renderCursor() {
+                cursorX += (mouseX - cursorX) * 0.25;
+                cursorY += (mouseY - cursorY) * 0.25;
+                cursor.style.left = `${cursorX}px`;
+                cursor.style.top = `${cursorY}px`;
+
+                spotX += (mouseX - spotX) * 0.12;
+                spotY += (mouseY - spotY) * 0.12;
+                spotlight.style.left = `${spotX}px`;
+                spotlight.style.top = `${spotY}px`;
+
+                requestAnimationFrame(renderCursor);
+            }
+            requestAnimationFrame(renderCursor);
+
+            // Expand cursor on interactive element hover
+            const hoverTargets = document.querySelectorAll('a, button, .nb-card, .nb-btn, .tilted-card');
+            hoverTargets.forEach(target => {
+                target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        })();
+
+        // Scroll Progress Bar Update
+        window.addEventListener('scroll', () => {
+            const progressBar = document.getElementById('scroll-progress-bar');
+            if (!progressBar) return;
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        });
+
+        // Count Up Statistics Animation Observer
+        (function initCountUpStats() {
+            const statsSection = document.getElementById('stats-section');
+            if (!statsSection) return;
+
+            let hasCounted = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasCounted) {
+                        hasCounted = true;
+                        const counters = document.querySelectorAll('.count-up');
+                        counters.forEach(counter => {
+                            const target = parseInt(counter.getAttribute('data-target'), 10);
+                            const duration = 1800; // ms
+                            const start = 0;
+                            const startTime = performance.now();
+
+                            function update(currentTime) {
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                // EaseOutQuad
+                                const easeProgress = progress * (2 - progress);
+                                const currentVal = Math.floor(easeProgress * (target - start) + start);
+                                counter.innerText = currentVal;
+
+                                if (progress < 1) {
+                                    requestAnimationFrame(update);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            }
+                            requestAnimationFrame(update);
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(statsSection);
+        })();
+
+        // Image Lightbox Modal Functions
+        function openLightbox(imgUrl, captionText) {
+            const lightbox = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            if (!lightbox || !img || !caption) return;
+
+            img.src = imgUrl;
+            caption.innerText = captionText;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox-modal');
+            if (lightbox) {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+            }
+        }
+
+        // Close Lightbox on Escape Key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeLightbox();
+            }
+        });
+
+        // REACT BITS 1: Split Text Component Implementation
+        function initSplitText() {
+            const splitElement = document.getElementById('split-headline');
+            if (!splitElement) return;
+
+            const text = splitElement.getAttribute('data-text') || splitElement.innerText.trim();
+            splitElement.innerHTML = '';
+
+            // Split into characters
+            text.split('').forEach((char, index) => {
+                const charSpan = document.createElement('span');
+                charSpan.className = 'split-text-char';
+                if (char === ' ') {
+                    charSpan.innerHTML = '&nbsp;';
+                } else {
+                    charSpan.innerText = char;
+                }
+                charSpan.style.transitionDelay = `${index * 0.045}s`;
+                splitElement.appendChild(charSpan);
+            });
+        }
+
+        // REACT BITS 2: Magnet (Magnetic Buttons) Component Implementation
+        function initMagneticButtons() {
+            const magneticBtns = document.querySelectorAll('.magnetic-btn');
+
+            magneticBtns.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const btnCenterX = rect.left + rect.width / 2;
+                    const btnCenterY = rect.top + rect.height / 2;
+
+                    const distanceX = (e.clientX - btnCenterX) * 0.35;
+                    const distanceY = (e.clientY - btnCenterY) * 0.35;
+
+                    btn.style.transform = `translate3d(${distanceX}px, ${distanceY}px, 0px)`;
+                    btn.style.boxShadow = `${6 - distanceX * 0.2}px ${6 - distanceY * 0.2}px 0px 0px #000`;
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate3d(0px, 0px, 0px)';
+                    btn.style.boxShadow = '';
+                });
+            });
+        }
+
+        // REACT BITS 4: Tilted Card Component Implementation
+        function initTiltedCards() {
+            const cards = document.querySelectorAll('.tilted-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Calculate rotation angles (max 10 deg)
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    // Offset hard shadow inverse to tilt angle
+                    const shadowX = 6 - (rotateY * 0.5);
+                    const shadowY = 6 + (rotateX * 0.5);
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+                    card.style.boxShadow = `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 0px 0px #000`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                    card.style.boxShadow = '';
+                });
+            });
+        }
+
+        // REACT BITS 6: Text Type / Animated Profession Subtitle Component Implementation
+        function initTypewriter() {
+            const typewriterEl = document.getElementById('typewriter-text');
+            if (!typewriterEl) return;
+
+            const roles = [
+                "LULUSAN SMK TEKNIK KOMPUTER DAN JARINGAN",
+                "MIKROTIK & NETWORK MANAGEMENT SPECIALIST",
+                "TROUBLESHOOTER & HARDWARE PC ASSEMBLER",
+                "DESAIN GRAFIS & CREATIVE SUPPORT"
+            ];
+
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 70;
+
+            function type() {
+                const currentRole = roles[roleIndex];
+
+                if (isDeleting) {
+                    typewriterEl.innerText = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+                    typingSpeed = 35;
+                } else {
+                    typewriterEl.innerText = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+                    typingSpeed = 70;
+                }
+
+                if (!isDeleting && charIndex === currentRole.length) {
+                    isDeleting = true;
+                    typingSpeed = 2200; // Pause at end of text
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                    typingSpeed = 400; // Pause before typing next word
+                }
+
+                setTimeout(type, typingSpeed);
+            }
+
+            type();
+        }
+
+        // Intro / Login Animation System (7 DETIK LOGIN + SLOW MOTION REVEAL HASIL PERKENALAN)
+        window.addEventListener('load', () => {
+            initHeroBackground();
+            initSplitText();
+            initMagneticButtons();
+            initTiltedCards();
+            initTypewriter();
+
+            const progress = document.getElementById('intro-progress');
+            const overlay = document.getElementById('intro-overlay');
+            const loginCard = document.getElementById('login-card');
+            const statusText = document.getElementById('intro-status-text');
+            const percentText = document.getElementById('intro-percent');
+            const heroContent = document.getElementById('hero-content');
+            
+            const totalDuration = 7000; // 7 Detik Login
+            const startTime = Date.now();
+
+            const statusSteps = [
+                { time: 0, text: "INITIALIZING SYSTEM..." },
+                { time: 1500, text: "CONNECTING NETWORK & ROUTER..." },
+                { time: 3200, text: "LOADING MIKROTIK & TKJ MODULES..." },
+                { time: 5000, text: "PREPARING 3D LANYARD INTERACTION..." },
+                { time: 6500, text: "ACCESS GRANTED! WELCOME FAJAR!" }
+            ];
+
+            const timer = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progressPct = Math.min(100, Math.floor((elapsed / totalDuration) * 100));
+                
+                if (progress) progress.style.width = `${progressPct}%`;
+                if (percentText) percentText.innerText = `${progressPct}%`;
+
+                // Update text status based on elapsed time
+                for (let i = statusSteps.length - 1; i >= 0; i--) {
+                    if (elapsed >= statusSteps[i].time) {
+                        if (statusText) statusText.innerText = statusSteps[i].text;
+                        break;
+                    }
+                }
+
+                // Saat login selesai (7 Detik) -> Langsung luncurkan overlay keluar & berikan efek slow-motion reveal ke halaman Hero
+                if (elapsed >= totalDuration) {
+                    clearInterval(timer);
+                    
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                        overlay.style.transform = 'translateY(-100%)';
+                        setTimeout(() => {
+                            overlay.remove();
+                            // Aktifkan animasi slow motion perkenalan & split text reveal
+                            if (heroContent) {
+                                heroContent.classList.add('hero-active');
+                            }
+                        }, 800);
+                    }
+                }
+            }, 50);
+        });
+
+        // Dark / Light Mode Toggle Functionality
+        function toggleDarkLightMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('theme-toggle-icon');
+            
+            if (isDark) {
+                icon.className = 'fa-solid fa-sun text-nb-red text-xl';
+                document.body.style.backgroundColor = '#121212';
+                document.body.style.color = '#FFF8F8';
+                showToast("Mode Gelap Aktif 🌙");
+            } else {
+                icon.className = 'fa-solid fa-moon text-xl';
+                document.body.style.backgroundColor = '#FFF8F8';
+                document.body.style.color = '#121212';
+                showToast("Mode Terang Aktif ☀️");
+            }
+        }
+
+        // REACT BITS 3: Scroll Reveal Observer (Triggers when scrolling down and up)
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.12,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        // Re-trigger animation when scrolling up or down out of view
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => scrollObserver.observe(el));
+        });
+
+        // Copy Email function with toast
+        function copyEmail() {
+            const email = "fajarrrj272@gmail.com";
+            
+            // Clipboard Copying mechanism fallback
+            const tempInput = document.createElement("input");
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            showToast("Email fajarrrj272@gmail.com berhasil disalin!");
+            
+            const btnText = document.getElementById("copy-email-text");
+            if (btnText) {
+                btnText.innerText = "Tersalin!";
+                setTimeout(() => {
+                    btnText.innerText = "Salin Email";
+                }, 2000);
+            }
+        }
+
+        // Project Filtering Logic
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.project-filter-btn');
+
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-filter') === category) {
+                    btn.classList.remove('bg-white', 'text-black');
+                    btn.classList.add('bg-black', 'text-white');
+                } else {
+                    btn.classList.remove('bg-black', 'text-white');
+                    btn.classList.add('bg-white', 'text-black');
+                }
+            });
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Handler Functions
+        function openModal(title, description, image, tags) {
+            const modal = document.getElementById('project-modal');
+            const content = document.getElementById('modal-content');
+
+            const tagsHtml = tags.map(tag => 
+                `<span class="bg-nb-yellow border-2 border-black font-bold text-xs px-2.5 py-1 shadow-brutal-sm">${tag}</span>`
+            ).join(' ');
+
+            content.innerHTML = `
+                <div class="h-64 bg-gray-100 border-3 border-black overflow-hidden mb-4">
+                    <img src="${image}" alt="${title}" class="w-full h-full object-cover">
+                </div>
+                <h3 class="font-heading font-black text-3xl uppercase">${title}</h3>
+                <div class="flex flex-wrap gap-2 my-2">${tagsHtml}</div>
+                <p class="font-medium text-gray-800 leading-relaxed text-base">${description}</p>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            showToast("Terima kasih! Pesan Anda telah terkirim.");
+            e.target.reset();
+        }
+
+        // Toast Notification Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = msg;
+            
+            toast.classList.remove('translate-y-32');
+            toast.classList.add('translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0');
+                toast.classList.add('translate-y-32');
+            }, 3000);
+        }
+
+        // Theme Color Cycler (Fun Interactive feature)
+        const themeColors = ['#FFFDF5', '#EBF8FF', '#F0FDF4', '#FFF1F2', '#FAF5FF'];
+        let currentThemeIdx = 0;
+
+        function toggleThemeColor() {
+            currentThemeIdx = (currentThemeIdx + 1) % themeColors.length;
+            document.body.style.backgroundColor = themeColors[currentThemeIdx];
+            showToast("Warna background diubah!");
+        }
+
+        // Close modal on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        /* ==========================================================================
+           REACT BITS - 3D INTERACTIVE LANYARD COMPONENT (JavaScript + Three.js)
+           ========================================================================== */
+        window.addEventListener('load', () => {
+            initLanyardComponent();
+        });
+
+        function initLanyardComponent() {
+            const container = document.getElementById('lanyard-container');
+            const canvas = document.getElementById('lanyard-canvas');
+            if (!container || !canvas || !window.THREE) return;
+
+            // Scene setup
+            const scene = new THREE.Scene();
+            
+            // Camera setup
+            const camera = new THREE.PerspectiveCamera(32, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 10.5);
+
+            // Renderer setup
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            dirLight.position.set(5, 8, 5);
+            dirLight.castShadow = true;
+
+            // 1. Badge Front Texture (SOLID NEO-BRUTALIST THEME)
+            function createCardTexture() {
+                const cv = document.createElement('canvas');
+                cv.width = 700;
+                cv.height = 1000;
+                const ctx = cv.getContext('2d');
+
+                // Card Background (Solid Gold/Yellow)
+                ctx.fillStyle = '#FFD166';
+                ctx.fillRect(0, 0, 700, 1000);
+
+                // Thick Outer Border
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 24;
+                ctx.strokeRect(12, 12, 676, 976);
+
+                // Inner White Card Area
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(40, 180, 620, 770);
+                ctx.strokeRect(40, 180, 620, 770);
+
+                // Top Red Banner
+                ctx.fillStyle = '#FF1E27';
+                ctx.fillRect(40, 40, 620, 120);
+                ctx.strokeRect(40, 40, 620, 120);
+
+                // Top Header Text
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = '900 36px "Space Grotesk", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('⭐ FAJAR.DEV — OFFICIAL PASS', 350, 112);
+
+                // Profile Picture Frame Box
+                ctx.fillStyle = '#FFD166';
+                ctx.fillRect(80, 220, 540, 420);
+                ctx.lineWidth = 14;
+                ctx.strokeRect(80, 220, 540, 420);
+
+                // Draw solid background badge photo
+                ctx.fillStyle = '#FF1E27';
+                ctx.fillRect(88, 228, 524, 404);
+
+                // Load and draw profile image inside frame
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => {
+                    ctx.drawImage(img, 88, 228, 524, 404);
+                    // Re-draw border over photo
+                    ctx.strokeRect(80, 220, 540, 420);
+                    cardTexture.needsUpdate = true;
+                };
+                // Ganti baris di bawah ini dengan nama file foto Anda (misal: 'foto-fajar.jpg') atau link URL foto Anda
+                img.src = 'foto-fajar.jpg';
+
+                // Name Title
+                ctx.fillStyle = '#121212';
+                ctx.font = '900 44px "Space Grotesk", sans-serif';
+                ctx.fillText('FAJAR HIBATULLAH', 350, 710);
+
+                // Subtitle / Profession
+                ctx.fillStyle = '#FF1E27';
+                ctx.font = '800 26px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('TKJ & IT TECHNICIAN 🇮🇩', 350, 755);
+
+                // Divider Line
+                ctx.beginPath();
+                ctx.moveTo(80, 785);
+                ctx.lineTo(620, 785);
+                ctx.lineWidth = 8;
+                ctx.stroke();
+
+                // Stats / Info Row
+                ctx.fillStyle = '#000000';
+                ctx.font = '800 20px "Space Grotesk", sans-serif';
+                ctx.fillText('PEKALONGAN  |  SMK MA\'ARIF NU TIRTO', 350, 830);
+
+                // Barcode simulation
+                ctx.fillStyle = '#000000';
+                for (let x = 140; x < 560; x += Math.floor(Math.random() * 14 + 6)) {
+                    const w = Math.random() > 0.4 ? 6 : 14;
+                    ctx.fillRect(x, 860, w, 60);
+                }
+                ctx.font = '700 18px monospace';
+                ctx.fillText('* ID-2026-TKJ-FAJAR *', 350, 940);
+
+                // Eyelet Hole Punch circle at top center
+                ctx.fillStyle = '#121212';
+                ctx.beginPath();
+                ctx.arc(350, 90, 22, 0, Math.PI * 2);
+                ctx.fill();
+
+                return new THREE.CanvasTexture(cv);
+            }
+
+            // 2. Lanyard Strap Pattern Texture (Solid Red & Gold Edge)
+            function createStrapTexture() {
+                const cv = document.createElement('canvas');
+                cv.width = 64;
+                cv.height = 512;
+                const ctx = cv.getContext('2d');
+
+                // Solid Red background
+                ctx.fillStyle = '#FF1E27';
+                ctx.fillRect(0, 0, 64, 512);
+
+                // Cyber Yellow Side Stripes
+                ctx.fillStyle = '#FFD166';
+                ctx.fillRect(0, 0, 10, 512);
+                ctx.fillRect(54, 0, 10, 512);
+
+                // Vertical repeating text
+                ctx.save();
+                ctx.translate(36, 500);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = '900 24px "Space Grotesk", sans-serif';
+                ctx.fillText('★ FAJAR HIBATULLAH ★ TKJ & IT SPECIALIST ★ FAJAR HIBATULLAH ★', 0, 0);
+                ctx.restore();
+
+                const texture = new THREE.CanvasTexture(cv);
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(1, 4);
+                return texture;
+            }
+
+            const cardTexture = createCardTexture();
+            const strapTexture = createStrapTexture();
+
+            // --- 3D Mesh Assemblies --- //
+
+            const cardWidth = 2.4;
+            const cardHeight = 3.5;
+            const cardDepth = 0.05;
+
+            const cardGeometry = new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth);
+            
+            // Front & Back materials
+            const cardMaterials = [
+                new THREE.MeshStandardMaterial({ color: 0x121212 }), // right
+                new THREE.MeshStandardMaterial({ color: 0x121212 }), // left
+                new THREE.MeshStandardMaterial({ color: 0x121212 }), // top
+                new THREE.MeshStandardMaterial({ color: 0x121212 }), // bottom
+                new THREE.MeshStandardMaterial({ map: cardTexture, roughness: 0.3, metalness: 0.1 }), // front
+                new THREE.MeshStandardMaterial({ color: 0xFF1E27, roughness: 0.4 }) // back (Red)
+            ];
+
+            const cardMesh = new THREE.Mesh(cardGeometry, cardMaterials);
+            cardMesh.castShadow = true;
+            cardMesh.receiveShadow = true;
+
+            // Metallic Ring Hook on top of Card
+            const ringGeo = new THREE.TorusGeometry(0.18, 0.04, 16, 32);
+            const ringMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 0.9, roughness: 0.2 });
+            const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+            ringMesh.position.set(0, cardHeight / 2 + 0.1, 0);
+            ringMesh.rotation.x = Math.PI / 2;
+            cardMesh.add(ringMesh);
+
+            // Metal Clasp / Clip Base
+            const clipGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.3, 16);
+            const clipMat = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, metalness: 0.85, roughness: 0.3 });
+            const clipMesh = new THREE.Mesh(clipGeo, clipMat);
+            clipMesh.position.set(0, cardHeight / 2 + 0.3, 0);
+            cardMesh.add(clipMesh);
+
+            scene.add(cardMesh);
+
+            // 2. Physics & Rope Simulation Setup (Verlet Integration)
+            const numNodes = 12;
+            // Panjang tali dipendekkan menjadi 1.7 agar posisi ID Card & Foto menggantung lebih tinggi dan terlihat jelas secara utuh
+            const ropeLength = 1.7;
+            const segmentLength = ropeLength / (numNodes - 1);
+            
+            // Titik tumpu atas disesuaikan agar posisi menggantung pas di tengah canvas
+            const topAnchor = new THREE.Vector3(0, 2.7, 0); // Fixed point at top
+
+            class Node {
+                constructor(x, y, z) {
+                    this.position = new THREE.Vector3(x, y, z);
+                    this.oldPosition = new THREE.Vector3(x, y, z);
+                    this.pinned = false;
+                }
+            }
+
+            const nodes = [];
+            for (let i = 0; i < numNodes; i++) {
+                const node = new Node(
+                    topAnchor.x,
+                    topAnchor.y - i * segmentLength,
+                    topAnchor.z
+                );
+                if (i === 0) node.pinned = true;
+                nodes.push(node);
+            }
+
+            // 3. Ribbon Strap Mesh (Tube/Curve Mesh)
+            const curve = new THREE.CatmullRomCurve3(nodes.map(n => n.position));
+            const ropeGeometry = new THREE.TubeGeometry(curve, 64, 0.09, 8, false);
+            const ropeMaterial = new THREE.MeshStandardMaterial({
+                map: strapTexture,
+                roughness: 0.6,
+                metalness: 0.1
+            });
+            const ropeMesh = new THREE.Mesh(ropeGeometry, ropeMaterial);
+            scene.add(ropeMesh);
+
+            // --- Interactive Mouse / Touch Dragging --- //
+
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+            let isDragging = false;
+            let dragPlane = new THREE.Plane();
+            let planeIntersect = new THREE.Vector3();
+
+            function getPointerPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: ((clientX - rect.left) / rect.width) * 2 - 1,
+                    y: -((clientY - rect.top) / rect.height) * 2 + 1
+                };
+            }
+
+            function onPointerDown(e) {
+                const pos = getPointerPos(e);
+                mouse.x = pos.x;
+                mouse.y = pos.y;
+
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObject(cardMesh);
+
+                if (intersects.length > 0) {
+                    isDragging = true;
+                    // Define drag plane facing camera at card position
+                    dragPlane.setFromNormalAndCoplanarPoint(
+                        camera.getWorldDirection(new THREE.Vector3()).negate(),
+                        intersects[0].point
+                    );
+                }
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                const pos = getPointerPos(e);
+                mouse.x = pos.x;
+                mouse.y = pos.y;
+
+                raycaster.setFromCamera(mouse, camera);
+                if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
+                    // Update bottom node position towards pointer
+                    const lastNode = nodes[nodes.length - 1];
+                    lastNode.position.copy(planeIntersect);
+                }
+            }
+
+            function onPointerUp() {
+                isDragging = false;
+            }
+
+            canvas.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove);
+            window.addEventListener('mouseup', onPointerUp);
+
+            canvas.addEventListener('touchstart', onPointerDown, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: true });
+            window.addEventListener('touchend', onPointerUp);
+
+            // Responsive Window Resize Handler
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            });
+
+            // --- Verlet Physics Simulation Loop --- //
+            const gravity = new THREE.Vector3(0, -0.015, 0);
+            const damping = 0.96;
+
+            function updatePhysics() {
+                // Time step / Verlet position integration
+                for (let i = 0; i < nodes.length; i++) {
+                    const node = nodes[i];
+                    if (node.pinned) continue;
+
+                    if (i === nodes.length - 1 && isDragging) {
+                        // Position locked to drag target
+                        continue;
+                    }
+
+                    const velocity = node.position.clone().sub(node.oldPosition).multiplyScalar(damping);
+                    node.oldPosition.copy(node.position);
+                    node.position.add(velocity).add(gravity);
+                }
+
+                // Distance Constraint Resolution (Iterate multiple passes for rigidity)
+                const iterations = 8;
+                for (let iter = 0; iter < iterations; iter++) {
+                    for (let i = 0; i < nodes.length - 1; i++) {
+                        const n1 = nodes[i];
+                        const n2 = nodes[i + 1];
+                        const diff = n2.position.clone().sub(n1.position);
+                        const dist = diff.length();
+                        const error = dist - segmentLength;
+                        const correction = diff.normalize().multiplyScalar(error * 0.5);
+
+                        if (!n1.pinned) n1.position.add(correction);
+                        if (!n2.pinned && !(i + 1 === nodes.length - 1 && isDragging)) {
+                            n2.position.sub(correction);
+                        }
+                    }
+                }
+
+                // Update Tube Mesh Geometry along ribbon curve
+                const points = nodes.map(n => n.position);
+                curve.points = points;
+                ropeMesh.geometry.dispose();
+                ropeMesh.geometry = new THREE.TubeGeometry(curve, 64, 0.07, 8, false);
+
+                // Update Card Position & Natural Rotation
+                const lastNode = nodes[nodes.length - 1];
+                const prevNode = nodes[nodes.length - 2];
+                
+                cardMesh.position.copy(lastNode.position);
+                cardMesh.position.y -= cardHeight / 2 + 0.3; // hang below clip
+
+                // Calculate swinging angle based on velocity/direction
+                const dir = lastNode.position.clone().sub(prevNode.position).normalize();
+                const targetRotZ = Math.atan2(-dir.x, -dir.y) * 0.8;
+                const targetRotX = dir.z * 0.5;
+
+                // Subtle sway rotation when idle
+                const time = Date.now() * 0.002;
+                const idleSway = isDragging ? 0 : Math.sin(time) * 0.05;
+
+                cardMesh.rotation.z += (targetRotZ + idleSway - cardMesh.rotation.z) * 0.1;
+                cardMesh.rotation.x += (targetRotX - cardMesh.rotation.x) * 0.1;
+                cardMesh.rotation.y += (idleSway * 0.5 - cardMesh.rotation.y) * 0.1;
+            }
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                updatePhysics();
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
